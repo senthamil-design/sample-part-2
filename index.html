@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FashionStore | Modern eCommerce</title>
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+
+    /* Utilities */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 14px;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #3b82f6;
+      color: #3b82f6;
+    }
+
+    .btn-outline:hover {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .btn:hover {
+      background: #2563eb;
+      transform: translateY(-1px);
+    }
+
+    /* Header */
+    header {
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .search-bar {
+      flex: 1;
+      max-width: 400px;
+      display: flex;
+      background: #f1f5f9;
+      border-radius: 60px;
+      overflow: hidden;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 10px 18px;
+      border: none;
+      background: transparent;
+      outline: none;
+    }
+
+    .search-bar button {
+      background: #e2e8f0;
+      border: none;
+      padding: 0 18px;
+      cursor: pointer;
+    }
+
+    .cart-icon {
+      position: relative;
+      font-size: 24px;
+      cursor: pointer;
+      background: #f1f5f9;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 30px;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #ef4444;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      width: 20px;
+      height: 20px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(110deg, #eef2ff 0%, #ffffff 100%);
+      border-radius: 32px;
+      margin: 24px 0 40px;
+      padding: 48px 32px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+
+    /* category chips */
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 32px 0;
+      justify-content: center;
+    }
+
+    .chip {
+      background: white;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      transition: 0.2s;
+      border: 1px solid #e2e8f0;
+    }
+
+    .chip.active, .chip:hover {
+      background: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+
+    /* product grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 28px;
+      margin: 32px 0;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+      transition: 0.25s ease;
+      cursor: pointer;
+      border: 1px solid #eef2ff;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
+    }
+
+    .product-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      background: #f1f5f9;
+    }
+
+    .product-info {
+      padding: 16px;
+    }
+
+    .price {
+      font-weight: 700;
+      color: #3b82f6;
+      font-size: 1.25rem;
+    }
+
+    .rating {
+      color: #fbbf24;
+      margin: 6px 0;
+      font-size: 14px;
+    }
+
+    /* filters + sort row */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin: 16px 0 20px;
+      gap: 16px;
+    }
+
+    select, .price-filter input {
+      padding: 8px 12px;
+      border-radius: 30px;
+      border: 1px solid #cbd5e1;
+      background: white;
+    }
+
+    .price-filter {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* cart items */
+    .cart-item {
+      display: flex;
+      gap: 20px;
+      background: white;
+      padding: 16px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .cart-details {
+      flex: 2;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* checkout form */
+    .checkout-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin: 30px 0;
+    }
+
+    .form-card {
+      background: white;
+      padding: 24px;
+      border-radius: 24px;
+      flex: 1;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      margin-top: 6px;
+      margin-bottom: 16px;
+    }
+
+    /* footer */
+    footer {
+      background: #0f172a;
+      color: #cbd5e1;
+      text-align: center;
+      padding: 32px 0;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 720px) {
+      .header-inner {
+        flex-direction: column;
+      }
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="logo">✨ FASHIONSTORE</div>
+    <div class="search-bar">
+      <input type="text" id="globalSearchInput" placeholder="Search products...">
+      <button id="globalSearchBtn"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="cart-icon" id="cartIconBtn">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="cart-count" id="cartCountBadge">0</span>
+    </div>
+  </div>
+</header>
+
+<main id="appRoot" class="container"></main>
+
+<footer>
+  <div class="container">
+    <p>© 2026 FashionStore — demo frontend project | No payments, localStorage cart</p>
+  </div>
+</footer>
+
+<script>
+ 
+  const PRODUCTS = [
+    { id: 1, name: "Classic White Sneakers", price: 499, category: "shoes", rating: 4.5, image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400&h=400&fit=crop", description: "Comfortable everyday sneakers with premium leather feel." },
+    { id: 2, name: "Urban Backpack", price: 899, category: "bags", rating: 4.2, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop", description: "Lightweight, water-resistant backpack for travel." },
+    { id: 3, name: "Oversized T-shirt", price: 699, category: "clothing", rating: 4.0, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop", description: "Soft cotton oversized tee, perfect for streetwear." },
+    { id: 4, name: "Leather Chelsea Boots", price: 1499, category: "shoes", rating: 4.8, image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=400&h=400&fit=crop", description: "Classic chelsea boots, durable and stylish." },
+    { id: 5, name: "Minimalist Watch", price: 299, category: "accessories", rating: 4.7, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop", description: "Elegant analog watch with stainless steel strap." },
+    { id: 6, name: "Denim Jacket", price: 899, category: "clothing", rating: 4.3, image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=400&h=400&fit=crop", description: "Classic denim jacket, year-round staple." },
+    { id: 7, name: "Running Shoes", price: 1109, category: "shoes", rating: 4.6, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop", description: "Lightweight running shoes with cushioning." },
+    { id: 8, name: "Canvas Tote Bag", price: 799, category: "bags", rating: 4.1, image: "https://images.unsplash.com/photo-1597633425046-08f5110420b5?w=400&h=400&fit=crop", description: "Eco-friendly tote, perfect for shopping." },
+    { id: 9, name: "Wireless Earbuds", price: 1999, category: "electronics", rating: 4.4, image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=400&fit=crop", description: "True wireless earbuds with noise cancellation." },
+    { id: 10, name: "Smart Watch Band", price: 1799, category: "accessories", rating: 4.0, image: "https://images.unsplash.com/photo-1617043786394-f977fa12eddf?w=400&h=400&fit=crop", description: "Silicone watch band, compatible with all models." },
+    { id: 11, name: "Leather Wallet", price: 350, category: "accessories", rating: 4.3, image: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=400&h=400&fit=crop", description: "Genuine leather wallet with multiple card slots." },
+    { id: 12, name: "Sunglasses", price: 199, category: "accessories", rating: 4.2, image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=400&fit=crop", description: "UV400 protection sunglasses with polarized lenses." },
+    { id: 13, name: "Hoodie", price: 599, category: "clothing", rating: 4.5, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=400&fit=crop", description: "Premium cotton hoodie with kangaroo pocket." },
+    { id: 14, name: "Yoga Mat", price: 199, category: "fitness", rating: 4.6, image: "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=400&h=400&fit=crop", description: "Non-slip yoga mat with carrying strap." },
+    { id: 15, name: "Water Bottle", price:75, category: "fitness", rating: 4.1, image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop", description: "Insulated stainless steel water bottle." },
+    { id: 16, name: "Baseball Cap", price: 99, category: "accessories", rating: 4.0, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&h=400&fit=crop", description: "Adjustable cotton cap with embroidered logo." },
+    { id: 17, name: "Sneaker Cleaner Kit", price: 99, category: "shoes", rating: 4.3, image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400&h=400&fit=crop", description: "Complete shoe cleaning kit for all materials." },
+    { id: 18, name: "Messenger Bag", price: 600, category: "bags", rating: 4.4, image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop", description: "Vintage messenger bag with laptop compartment." },
+    { id: 19, name: "Wireless Headphones", price: 2499, category: "electronics", rating: 4.6, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop", description: "Premium over-ear headphones with deep bass." },
+    { id: 20, name: "Formal Shirt", price: 799, category: "clothing", rating: 4.3, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=400&fit=crop", description: "Classic formal shirt for office wear." },
+    { id: 21, name: "Sports Shorts", price: 399, category: "clothing", rating: 4.2, image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=400&h=400&fit=crop", description: "Breathable sports shorts for workout." },
+    { id: 22, name: "Leather Belt", price: 299, category: "accessories", rating: 4.4, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop", description: "Genuine leather belt with silver buckle." },
+    { id: 23, name: "Fitness Tracker", price: 1499, category: "electronics", rating: 4.5, image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=400&h=400&fit=crop", description: "Smart fitness band with heart rate monitor." },
+    { id: 24, name: "Running Shorts", price: 449, category: "clothing", rating: 4.1, image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&h=400&fit=crop", description: "Lightweight running shorts with pocket." },
+    { id: 25, name: "Bluetooth Speaker", price: 1299, category: "electronics", rating: 4.4, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop", description: "Portable waterproof Bluetooth speaker." }
+  ];
+
+  // localStorage keys
+  const CART_STORAGE = "ecom_cart";
+  const USER_STORAGE = "ecom_user";
+
+  // Helper: load cart
+  function loadCart() {
+    const stored = localStorage.getItem(CART_STORAGE);
+    return stored ? JSON.parse(stored) : [];
+  }
+
+  function saveCart(cart) {
+    localStorage.setItem(CART_STORAGE, JSON.stringify(cart));
+    updateCartBadge();
+  }
+
+  function updateCartBadge() {
+    const cart = loadCart();
+    const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const badge = document.getElementById("cartCountBadge");
+    if (badge) badge.innerText = totalQty;
+  }
+
+  function addToCart(product, qty = 1) {
+    let cart = loadCart();
+    const existing = cart.find(item => item.id === product.id);
+    if (existing) {
+      existing.quantity += qty;
+    } else {
+      cart.push({ ...product, quantity: qty });
+    }
+    saveCart(cart);
+    alert(`${product.name} added to cart!`);
+  }
+
+  // simple router state: pages: home, shop, product, cart, checkout, login, success
+  let currentPage = "home";
+  let selectedProductId = null;
+  let currentFilters = { category: "all", minPrice: 0, maxPrice: 3000, search: "" };
+  let currentSort = "default";
+
+  function navigate(page, productId = null) {
+    currentPage = page;
+    selectedProductId = productId;
+    render();
+  }
+
+  // render main view based on route
+  function render() {
+    const app = document.getElementById("appRoot");
+    if (!app) return;
+    if (currentPage === "home") app.innerHTML = renderHome();
+    else if (currentPage === "shop") app.innerHTML = renderShop();
+    else if (currentPage === "product") app.innerHTML = renderProductDetail();
+    else if (currentPage === "cart") app.innerHTML = renderCart();
+    else if (currentPage === "checkout") app.innerHTML = renderCheckout();
+    else if (currentPage === "login") app.innerHTML = renderLogin();
+    else if (currentPage === "success") app.innerHTML = renderOrderSuccess();
+    else app.innerHTML = "<h2>404</h2>";
+    attachDynamicEvents();
+    updateCartBadge();
+  }
+
+  // ---------- HOME PAGE ----------
+  function renderHome() {
+    const featured = PRODUCTS.slice(0, 4);
+    const categories = [...new Set(PRODUCTS.map(p => p.category))];
+    return `
+      <div class="hero">
+        <h1>Summer Edition 2026</h1>
+        <p>Discover the latest trends with free shipping</p>
+        <button class="btn" id="shopNowBtn">Shop Now →</button>
+      </div>
+      <h2>Shop by Category</h2>
+      <div class="categories" id="homeCategories">
+        ${categories.map(cat => `<div class="chip" data-category="${cat}">${cat.toUpperCase()}</div>`).join('')}
+      </div>
+      <h2>Featured Products</h2>
+      <div class="product-grid">
+        ${featured.map(prod => renderProductCard(prod)).join('')}
+      </div>
+    `;
+  }
+
+  // PRODUCT CARD (shared)
+  function renderProductCard(prod) {
+    return `
+      <div class="product-card" data-product-id="${prod.id}">
+        <img class="product-img" src="${prod.image}" alt="${prod.name}" loading="lazy">
+        <div class="product-info">
+          <h3>${prod.name}</h3>
+          <div class="price">₹${prod.price}</div>
+          <div class="rating">${"★".repeat(Math.floor(prod.rating))}${prod.rating % 1 ? "½" : ""} (${prod.rating})</div>
+          <button class="btn add-to-cart-btn" data-id="${prod.id}" data-name="${prod.name}" data-price="${prod.price}" data-img="${prod.image}" data-category="${prod.category}" data-desc="${prod.description}" data-rating="${prod.rating}">Add to Cart</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // SHOP PAGE with filters, sorting and search
+  function renderShop() {
+    let filtered = [...PRODUCTS];
+    // category filter
+    if (currentFilters.category !== "all") {
+      filtered = filtered.filter(p => p.category === currentFilters.category);
+    }
+    // price range
+    filtered = filtered.filter(p => p.price >= currentFilters.minPrice && p.price <= currentFilters.maxPrice);
+    // search
+    if (currentFilters.search.trim() !== "") {
+      const term = currentFilters.search.toLowerCase();
+      filtered = filtered.filter(p => p.name.toLowerCase().includes(term));
+    }
+    // sorting
+    if (currentSort === "low-high") filtered.sort((a,b) => a.price - b.price);
+    else if (currentSort === "high-low") filtered.sort((a,b) => b.price - a.price);
+
+    const categories = ["all", ...new Set(PRODUCTS.map(p => p.category))];
+    return `
+      <div class="filter-bar">
+        <div class="categories" style="margin:0; gap:8px;">
+          ${categories.map(cat => `<div class="chip ${currentFilters.category === cat ? 'active' : ''}" data-filter-cat="${cat}">${cat === 'all' ? 'All' : cat}</div>`).join('')}
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <div class="price-filter">
+            <input type="number" id="minPrice" placeholder="Min ₹" value="${currentFilters.minPrice}" style="width:90px;">
+            <input type="number" id="maxPrice" placeholder="Max ₹" value="${currentFilters.maxPrice}" style="width:90px;">
+            <button id="applyPriceBtn" class="btn-outline btn">Apply</button>
+          </div>
+          <select id="sortSelect">
+            <option value="default" ${currentSort === 'default' ? 'selected' : ''}>Sort by: Featured</option>
+            <option value="low-high" ${currentSort === 'low-high' ? 'selected' : ''}>Price: Low to High</option>
+            <option value="high-low" ${currentSort === 'high-low' ? 'selected' : ''}>Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+      <div class="product-grid" id="shopGrid">
+        ${filtered.length ? filtered.map(p => renderProductCard(p)).join('') : '<p>No products match.</p>'}
+      </div>
+    `;
+  }
+
+  // PRODUCT DETAIL
+  function renderProductDetail() {
+    const product = PRODUCTS.find(p => p.id === selectedProductId);
+    if (!product) return "<p>Product not found.</p>";
+    const related = PRODUCTS.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
+    return `
+      <div style="display: flex; flex-wrap: wrap; gap: 40px; margin: 40px 0;">
+        <div style="flex:1; min-width:200px;">
+          <img src="${product.image}" style="width:100%; border-radius:32px;" alt="${product.name}">
+        </div>
+        <div style="flex:1">
+          <h1>${product.name}</h1>
+          <div class="price" style="font-size:2rem;">₹${product.price}</div>
+          <div class="rating">${"★".repeat(Math.floor(product.rating))} (${product.rating} stars)</div>
+          <p style="margin:16px 0">${product.description}</p>
+          <button class="btn" id="detailAddToCart">Add to Cart - ₹${product.price}</button>
+        </div>
+      </div>
+      ${related.length ? `<h3>You may also like</h3><div class="product-grid">${related.map(p => renderProductCard(p)).join('')}</div>` : ''}
+    `;
+  }
+
+  // CART PAGE
+  function renderCart() {
+    let cart = loadCart();
+    if (cart.length === 0) return `<div style="text-align:center; padding:60px;"><h2>🛒 Cart is empty</h2><button class="btn" id="continueShoppingBtn">Continue Shopping</button></div>`;
+    let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    return `
+      <h2>Shopping Cart</h2>
+      <div id="cartItemsList">
+        ${cart.map(item => `
+          <div class="cart-item" data-id="${item.id}">
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-details"><h4>${item.name}</h4><div>₹${item.price}</div></div>
+            <div class="quantity-control">
+              <button class="qty-down" data-id="${item.id}">-</button>
+              <span>${item.quantity}</span>
+              <button class="qty-up" data-id="${item.id}">+</button>
+              <button class="remove-item" data-id="${item.id}" style="background:#fee2e2; border:none; border-radius:40px; padding:8px 12px; margin-left:8px;">Remove</button>
+            </div>
+            <div><strong>₹${(item.price * item.quantity).toFixed(2)}</strong></div>
+          </div>
+        `).join('')}
+      </div>
+      <div style="text-align:right; margin:24px 0; font-size:24px;">Subtotal: ₹${subtotal.toFixed(2)}</div>
+      <div style="display:flex; gap: 16px; justify-content: flex-end;">
+        <button class="btn-outline btn" id="clearCartBtn">Clear Cart</button>
+        <button class="btn" id="proceedCheckoutBtn">Proceed to Checkout</button>
+      </div>
+    `;
+  }
+
+  // CHECKOUT UI only + address form + order summary
+  function renderCheckout() {
+    const cart = loadCart();
+    if (cart.length === 0) return `<div><p>Cart empty. <button id="goShopBtn" class="btn">Shop now</button></p></div>`;
+    const subtotal = cart.reduce((sum,i) => sum + i.price * i.quantity,0);
+    const shipping = 5.99;
+    const total = subtotal + shipping;
+    //check if user logged in (optional)
+    const loggedUser = localStorage.getItem(USER_STORAGE);
+    return `
+      <h2>Checkout</h2>
+      <div class="checkout-flex">
+        <div class="form-card">
+          <h3>Shipping Address</h3>
+          <input type="text" id="fullName" placeholder="Full Name" value="${loggedUser ? JSON.parse(loggedUser).name : ''}">
+          <input type="text" id="address" placeholder="Street address">
+          <input type="text" id="city" placeholder="City">
+          <input type="text" id="zip" placeholder="ZIP code">
+          <h3>Payment Method (UI demo)</h3>
+          <select id="paymentMethod">
+            <option>Credit Card (demo)</option>
+            <option>PayPal (demo)</option>
+            <option>Cash on Delivery</option>
+          </select>
+        </div>
+        <div class="form-card">
+          <h3>Order Summary</h3>
+          <p>Subtotal: ₹${subtotal.toFixed(2)}</p>
+          <p>Shipping: ₹${shipping.toFixed(2)}</p>
+          <hr/>
+          <h3>Total: ₹${total.toFixed(2)}</h3>
+          <button id="placeOrderBtn" class="btn" style="width:100%; margin-top:20px;">Place Order →</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // Login/Signup basic validation + store
+  function renderLogin() {
+    const storedUser = localStorage.getItem(USER_STORAGE);
+    let userEmail = "";
+    let userName = "";
+    if(storedUser) {
+      try { const u = JSON.parse(storedUser); userEmail = u.email; userName = u.name; } catch(e) {}
+    }
+    return `
+      <div style="max-width:500px; margin: 40px auto; background:white; padding: 32px; border-radius:32px;">
+        <h2>${storedUser ? "Welcome back" : "Login / Signup"}</h2>
+        <input type="text" id="loginName" placeholder="Full Name" value="${userName}">
+        <input type="email" id="loginEmail" placeholder="Email address" value="${userEmail}">
+        <input type="password" id="loginPassword" placeholder="Password (any)">
+        <p style="font-size:12px; color:#64748b;">Demo validation: Name & email required</p>
+        <button id="doLoginBtn" class="btn" style="width:100%">${storedUser ? "Update Account" : "Sign Up / Login"}</button>
+        <button id="logoutBtn" style="margin-top:12px; background:none; border:none; color:red; cursor:pointer;">Logout</button>
+      </div>
+    `;
+  }
+
+  // Order success with fake order ID
+  function renderOrderSuccess() {
+    const fakeOrderId = "ORD-" + Math.floor(Math.random() * 1000000);
+    return `
+      <div style="text-align:center; padding: 60px 20px;">
+        <i class="fas fa-check-circle" style="font-size:70px; color:#22c55e;"></i>
+        <h1>Order Placed Successfully!</h1>
+        <p>Your order ID: <strong>${fakeOrderId}</strong></p>
+        <p>Thank you for shopping with FashionStore (demo).</p>
+        <button id="continueHomeBtn" class="btn">Continue Shopping</button>
+      </div>
+    `;
+  }
+
+  // attach event listeners after render
+  function attachDynamicEvents() {
+    // Global navigation buttons
+    document.getElementById("shopNowBtn")?.addEventListener("click", () => { currentFilters = { category: "all", minPrice: 0, maxPrice: 3000, search: "" }; currentSort="default"; navigate("shop"); });
+    document.getElementById("cartIconBtn")?.addEventListener("click", () => navigate("cart"));
+    document.getElementById("continueShoppingBtn")?.addEventListener("click", () => navigate("shop"));
+    document.getElementById("goShopBtn")?.addEventListener("click", () => navigate("shop"));
+    document.getElementById("proceedCheckoutBtn")?.addEventListener("click", () => navigate("checkout"));
+    document.getElementById("clearCartBtn")?.addEventListener("click", () => { saveCart([]); render(); });
+    document.getElementById("continueHomeBtn")?.addEventListener("click", () => navigate("home"));
+    // search global
+    const searchBtn = document.getElementById("globalSearchBtn");
+    const searchInput = document.getElementById("globalSearchInput");
+    if(searchBtn && searchInput) {
+      const searchHandler = () => { currentFilters.search = searchInput.value; navigate("shop"); };
+      searchBtn.onclick = searchHandler;
+      searchInput.onkeyup = (e) => { if(e.key === "Enter") searchHandler(); };
+    }
+    // home categories
+    document.querySelectorAll("[data-category]").forEach(el => {
+      el.addEventListener("click", (e) => { currentFilters.category = e.target.dataset.category; navigate("shop"); });
+    });
+    // shop page filter events
+    const applyPrice = document.getElementById("applyPriceBtn");
+    if(applyPrice) {
+      applyPrice.onclick = () => {
+        const min = parseInt(document.getElementById("minPrice")?.value) || 0;
+        const max = parseInt(document.getElementById("maxPrice")?.value) || 3000;
+        currentFilters.minPrice = min;
+        currentFilters.maxPrice = max;
+        render();
+      };
+    }
+    const sortSelect = document.getElementById("sortSelect");
+    if(sortSelect) sortSelect.onchange = (e) => { currentSort = e.target.value; render(); };
+    document.querySelectorAll("[data-filter-cat]").forEach(cat => {
+      cat.addEventListener("click", (e) => { currentFilters.category = e.target.dataset.filterCat; render(); });
+    });
+    // add to cart buttons dynamic
+    document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const id = parseInt(btn.dataset.id);
+        const product = PRODUCTS.find(p => p.id === id);
+        if(product) addToCart(product, 1);
+      });
+    });
+    // product detail add
+    const detailAdd = document.getElementById("detailAddToCart");
+    if(detailAdd && selectedProductId) {
+      const prod = PRODUCTS.find(p => p.id === selectedProductId);
+      detailAdd.onclick = () => addToCart(prod, 1);
+    }
+    // cart quantity & remove
+    document.querySelectorAll(".qty-up").forEach(btn => {
+      btn.onclick = () => { const id = parseInt(btn.dataset.id); let cart = loadCart(); let idx = cart.findIndex(i=>i.id===id); if(idx!==-1){ cart[idx].quantity++; saveCart(cart); render(); } };
+    });
+    document.querySelectorAll(".qty-down").forEach(btn => {
+      btn.onclick = () => { const id = parseInt(btn.dataset.id); let cart = loadCart(); let idx = cart.findIndex(i=>i.id===id); if(idx!==-1 && cart[idx].quantity>1){ cart[idx].quantity--; saveCart(cart); render(); } else if(idx!==-1 && cart[idx].quantity===1){ cart.splice(idx,1); saveCart(cart); render(); } };
+    });
+    document.querySelectorAll(".remove-item").forEach(btn => {
+      btn.onclick = () => { const id = parseInt(btn.dataset.id); let cart=loadCart().filter(i=>i.id!==id); saveCart(cart); render(); };
+    });
+    // product card click navigate to detail
+    document.querySelectorAll(".product-card").forEach(card => {
+      card.addEventListener("click", (e) => { if(!e.target.classList.contains("add-to-cart-btn")){ const id = parseInt(card.dataset.productId); navigate("product", id); } });
+    });
+    // place order checkout
+    const placeOrder = document.getElementById("placeOrderBtn");
+    if(placeOrder) {
+      placeOrder.onclick = () => { 
+        const name = document.getElementById("fullName")?.value;
+        if(!name) { alert("Please fill address name"); return; }
+        saveCart([]);
+        navigate("success");
+      };
+    }
+    // login / logout
+    const doLogin = document.getElementById("doLoginBtn");
+    if(doLogin) {
+      doLogin.onclick = () => {
+        const name = document.getElementById("loginName")?.value.trim();
+        const email = document.getElementById("loginEmail")?.value.trim();
+        if(!name || !email) alert("Name and Email required");
+        else { localStorage.setItem(USER_STORAGE, JSON.stringify({name, email})); alert("Logged in!"); navigate("home"); }
+      };
+    }
+    const logoutBtn = document.getElementById("logoutBtn");
+    if(logoutBtn) logoutBtn.onclick = () => { localStorage.removeItem(USER_STORAGE); alert("Logged out"); navigate("home"); };
+  }
+
+  // initial load
+  updateCartBadge();
+  render();
+</script>
+</body>
+</html>
